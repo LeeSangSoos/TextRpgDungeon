@@ -32,16 +32,16 @@ namespace TextRpgDungeon
 	interface ICharacter
 	{
 		string Name { get; set; }
-		int Health { get; set; }
-		int Attack { get; set; }
+		float Health { get; set; }
+		float Attack { get; set; }
 		bool IsDead { get; set; }
 		public int Level { get; set; }
 		public CLASS Class { get; set; }
-		public int Defence { get; set; }
+		public float Defence { get; set; }
 		public int Gold { get; set; }
 
 		//데미지를 받을 경우
-		void TakeDamage(int damage);
+		void TakeDamage(float damage);
 
 		//캐릭터 능력치 출력
 		public bool PrintInfo();

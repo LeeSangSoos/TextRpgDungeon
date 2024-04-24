@@ -10,15 +10,17 @@ namespace TextRpgDungeon
 	class Warrior : ICharacter
 	{
 		public string Name { get; set; }
-		public int Health { get; set; }
-		public int TotalHealth { get; private set; }
-		public int Attack { get; set; }
+		public float Health { get; set; }
+		public float TotalHealth { get; private set; }
+		public float Attack { get; set; }
 		public bool IsDead { get; set; }
 		public int Level { get; set; }
 		public CLASS Class { get; set; }
-		public int Defence { get; set; }
+		public float Defence { get; set; }
 		public int Gold { get; set; }
 		public Inventory Inventory { get; set; }
+		public int TotalExp { get; set; }
+		public int Exp { get; set; }
 
 		//용사의 정보 초기화
 		public Warrior(string _name, int _health, int _attack,
@@ -34,10 +36,12 @@ namespace TextRpgDungeon
 			Defence = _defence;
 			Gold = _gold;
 			Inventory = new Inventory();
+			TotalExp = 1;
+			Exp = 0;
 		}
 
 		//데미지를 받아서 체력이 0이하가 되면 사망
-		public void TakeDamage(int damage)
+		public void TakeDamage(float damage)
 		{
 			Health -= damage;
 			if (Health <= 0)
@@ -83,7 +87,7 @@ namespace TextRpgDungeon
 			return true;
 		}
 
-		public int TotalDefence()
+		public float TotalDefence()
 		{
 			if(Inventory.Body != null)
 			{
@@ -95,7 +99,7 @@ namespace TextRpgDungeon
 			}
 		}
 
-		public int TotalAttack()
+		public float TotalAttack()
 		{
 			if (Inventory.RightHand != null)
 			{
@@ -105,6 +109,15 @@ namespace TextRpgDungeon
 			{
 				return Attack;
 			}
+		}
+	
+		public void LevelUp()
+		{
+			Level++;
+			Attack += 0.5f;
+			Defence += 1;
+			TotalExp++;
+			Exp = 0;
 		}
 	}
 }

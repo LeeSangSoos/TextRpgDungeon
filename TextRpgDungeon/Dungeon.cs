@@ -48,7 +48,7 @@ namespace TextRpgDungeon
 		//던전 클리어 여부 확인
 		public void DungeonClear(Warrior warrior)
 		{
-			int warriorDefence = warrior.TotalDefence();
+			float warriorDefence = warrior.TotalDefence();
 			if (warriorDefence < recommandedDefence)
 			{
 				Random random = new Random();
@@ -78,17 +78,23 @@ namespace TextRpgDungeon
 			Console.WriteLine("{0} 던전을 클리어 하였습니다.", Name);
 
 			Console.WriteLine("\n[탐험 결과]");
-			int warriorDefence = warrior.TotalDefence();
-			int warriorAttack = warrior.TotalAttack();
+			float warriorDefence = warrior.TotalDefence();
+			float warriorAttack = warrior.TotalAttack();
 
 			Random random = new Random();
-			int reducedHealth = random.Next(20, 36) + (warriorDefence - recommandedDefence);
+			float reducedHealth = random.Next(20, 36) + (warriorDefence - recommandedDefence);
 			Console.WriteLine($"체력 {warrior.Health} -> {warrior.Health - reducedHealth}");
 			warrior.TakeDamage(reducedHealth);
 
-			float rewardIncrease = (int)(random.Next(warriorAttack, warriorAttack*2 + 1)/ 100);
+			float rewardIncrease = (random.Next((int)warriorAttack, (int)warriorAttack*2 + 1)/ 100);
 			Console.WriteLine($"Gold {warrior.Gold} -> {(int)(warrior.Gold + clearReward + clearReward* rewardIncrease)}");
 			warrior.Gold = (int)(warrior.Gold + clearReward + clearReward * rewardIncrease);
+
+			warrior.Exp++;
+			if(warrior.Exp >= warrior.TotalExp)
+			{
+				warrior.LevelUp();
+			}
 		}
 
 		//클리어 실패시 출력과 결과 계산

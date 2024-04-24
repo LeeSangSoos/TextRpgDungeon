@@ -88,7 +88,7 @@ namespace TextRpgDungeon
 				Console.WriteLine("---------------------------------------------");
 				Console.WriteLine("던전입장" +
 				"\n이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
-				for (int i = 0; i < dungeon.Count; i++)
+				for (int i = 0; i < dungeon.Count; i++) // 던전 목록 출력
 				{
 					Console.Write($"{i + 1}. ");
 					dungeon[i].PrintData();
@@ -102,13 +102,13 @@ namespace TextRpgDungeon
 						exitDungeon = true;
 						break;
 					default:
-						if (warrior.IsDead)
+						if (warrior.IsDead)//죽었으면 강제로 퇴장
 						{
 							exitDungeon = true;
 						}
 						else
 						{
-							dungeon[input - 1].DungeonClear(warrior);
+							dungeon[input - 1].DungeonClear(warrior);//던전 선택시 입장
 						}
 						break;
 				}
@@ -142,12 +142,12 @@ namespace TextRpgDungeon
 						exitDungeon = true;
 						break;
 					default:
-						if(warrior.Gold >= 500)
+						if(warrior.Gold >= 500) // 휴식에 성공하면 500골드를 내고 체력 완전회복
 						{
 							Console.WriteLine("휴식을 완료했습니다.");
 							warrior.Health = warrior.TotalHealth;
 						}
-						else
+						else // 500골드가 부족하면 휴식 실패
 						{
 							Console.WriteLine("Gold 가 부족합니다.");
 						}
