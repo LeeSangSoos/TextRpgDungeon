@@ -1,0 +1,15 @@
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\bin\Debug\net8.0\TextRpgDungeon.exe
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\bin\Debug\net8.0\TextRpgDungeon.deps.json
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\bin\Debug\net8.0\TextRpgDungeon.runtimeconfig.json
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\bin\Debug\net8.0\TextRpgDungeon.dll
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\bin\Debug\net8.0\TextRpgDungeon.pdb
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\obj\Debug\net8.0\TextRpgDungeon.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\obj\Debug\net8.0\TextRpgDungeon.AssemblyInfoInputs.cache
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\obj\Debug\net8.0\TextRpgDungeon.AssemblyInfo.cs
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\obj\Debug\net8.0\TextRpgDungeon.csproj.CoreCompileInputs.cache
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\obj\Debug\net8.0\TextRpgDungeon.sourcelink.json
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\obj\Debug\net8.0\TextRpgDungeon.dll
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\obj\Debug\net8.0\refint\TextRpgDungeon.dll
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\obj\Debug\net8.0\TextRpgDungeon.pdb
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\obj\Debug\net8.0\TextRpgDungeon.genruntimeconfig.cache
+C:\Users\proto\Desktop\GitHubRepos\TextRpgDungeon\TextRpgDungeon\obj\Debug\net8.0\ref\TextRpgDungeon.dll
