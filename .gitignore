@@ -1,0 +1,4 @@
+# ignore all *.jfm files
+*.jfm
+
+.vs/
