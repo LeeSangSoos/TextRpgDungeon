@@ -31,47 +31,7 @@ namespace TextRpgDungeon
 		public bool ManageItems()
 		{
 			bool exitInventory = false;
-			while (!exitInventory)
-			{
-				Console.WriteLine("---------------------------------------------");
-				Console.WriteLine("인벤토리" +
-				"\n보유 중인 아이템을 관리할 수 있습니다.\n");
-				Console.WriteLine("[장착 아이템 목록]");
-				foreach (EquipmentItem item in equipmentItems)
-				{
-					Console.Write("- ");
-					item.PrintData();
-				}
-
-				Console.WriteLine("\n소모 아이템: ");
-				foreach (UsableItem item in usableItems)
-				{
-					Console.Write(item.Name + ", ");
-				}
-
-				Console.WriteLine("1. 장착 관리\n" +
-					"0. 나가기");
-				int input = Utils.GetInput(0, 1);
-				switch (input)
-				{
-					case 0:
-						exitInventory = true;
-						break;
-					case 1:
-						exitInventory = ManageEquipments();
-						break;
-				}
-			}
-			return false;//village로 돌아가기
-		}
-
-		/*
-		 * 장착 아이템 관리창
-		 * 아이템목록앞에 숫자가뜨고 숫자를 고르면 그 아이템 장착 또는 해제
-		 */
-		public bool ManageEquipments()
-		{
-			bool exitInventory = false;
+			bool manageEquipments = false; // 장착 관리 모드 on/off
 			while (!exitInventory)
 			{
 				Console.WriteLine("---------------------------------------------");
@@ -80,59 +40,99 @@ namespace TextRpgDungeon
 				Console.WriteLine("[장착 아이템 목록]");
 				for (int i = 0; i < equipmentItems.Count; i++)
 				{
-					Console.Write($"- {i + 1} ");
+					Console.Write("- ");
+					if (manageEquipments)
+					{
+						Console.Write($"- {i + 1} ");
+					}
 					equipmentItems[i].PrintData();
+					Console.WriteLine();
 				}
 
-				Console.WriteLine("\n0. 나가기");
-				int input = Utils.GetInput(0, equipmentItems.Count);
+				if (!manageEquipments)
+				{
+					Console.WriteLine("\n[소모 아이템 목록]");
+					foreach (UsableItem item in usableItems)
+					{
+						//추가 필요
+					}
+				}
+				if (!manageEquipments)
+				{
+					Console.WriteLine("1. 장착 관리");
+				}
+				Console.WriteLine("0. 나가기");
+
+				int input = 0;
+				if (manageEquipments)
+				{
+					input = Utils.GetInput(0, equipmentItems.Count);
+				}
+				else
+				{
+					input = Utils.GetInput(0, 1);
+				}
 				switch (input)
 				{
-					case 0:// 인벤토리로 나가기
-						exitInventory = true;
+					case 0:
+						if (manageEquipments)
+						{
+							manageEquipments = false;
+						}
+						else
+						{
+							exitInventory = true;
+						}
 						break;
 					default:
-						EquipmentItem item = equipmentItems[input - 1];
-						if (item.equipped)//장착된 아이템 해제
+						if (!manageEquipments && input == 1) // 장착 관리창이 아닐 때 장착관리창으로 이동
 						{
-							if (item.equipType == EQUIPMENTYPE.BODY)
-							{
-								Body = null;
-								item.equipped = false;
-							}
-							else if (item.equipType == EQUIPMENTYPE.ONEHAND)
-							{
-								RightHand = null;
-								item.equipped = false;
-							}
+							manageEquipments = true;
 						}
-						else // 아이템 장착
+						else //장착 관리 동작
 						{
-							if (item.equipType == EQUIPMENTYPE.BODY)
+							EquipmentItem item = equipmentItems[input - 1];
+							if (item.equipped)//장착된 아이템 해제
 							{
-								if (Body != null)
+								if (item.equipType == EQUIPMENTYPE.BODY)
 								{
-									Body.equipped = false;
 									Body = null;
+									item.equipped = false;
 								}
-								Body = item;
-								item.equipped = true;
-							}
-							else if (item.equipType == EQUIPMENTYPE.ONEHAND)
-							{
-								if (RightHand != null)
+								else if (item.equipType == EQUIPMENTYPE.ONEHAND)
 								{
-									RightHand.equipped = false;
 									RightHand = null;
+									item.equipped = false;
 								}
-								RightHand = item;
-								item.equipped = true;
+							}
+							else // 아이템 장착
+							{
+								if (item.equipType == EQUIPMENTYPE.BODY)
+								{
+									if (Body != null)
+									{
+										Body.equipped = false;
+										Body = null;
+									}
+									Body = item;
+									item.equipped = true;
+								}
+								else if (item.equipType == EQUIPMENTYPE.ONEHAND)
+								{
+									if (RightHand != null)
+									{
+										RightHand.equipped = false;
+										RightHand = null;
+									}
+									RightHand = item;
+									item.equipped = true;
+								}
 							}
 						}
 						break;
 				}
 			}
-			return false; //인벤토리로 돌아가기
+			return false;//village로 돌아가기
 		}
 	
 		/*인벤토리에 아이템 추가

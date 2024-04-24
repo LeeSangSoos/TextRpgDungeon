@@ -20,8 +20,8 @@ namespace TextRpgDungeon
 			return input;
 		}
 
-		static int IDFORITEM = 0;
 		//아이템 ID 생성기
+		static int IDFORITEM = 0;
 		public static int IdGenerator()
 		{
 			return IDFORITEM++;

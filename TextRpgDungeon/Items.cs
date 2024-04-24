@@ -25,7 +25,10 @@ namespace TextRpgDungeon
 	{
 		string Name { get; set; }
 		int ID { get;}
+		int Price {  get; }
+		public bool Sold { get; set; }
 		public void Use(Warrior warrior);
+		public void PrintData();
 	}
 	class UsableItem : IItem
 	{
@@ -33,7 +36,8 @@ namespace TextRpgDungeon
 		string type;
 		int amount;
 		public int ID { get; private set; }
-
+		public int Price { get; private set; }
+		public bool Sold { get; set; }
 		public UsableItem(string _name, string _type, int _amount)
 		{
 			Name = _name;
@@ -53,6 +57,9 @@ namespace TextRpgDungeon
 				warrior.Health += amount;
 			}
 		}
+		public void PrintData() { 
+			
+		}
 	}
 
 	class EquipmentItem : IItem
@@ -64,8 +71,10 @@ namespace TextRpgDungeon
 		public string discription;
 		public ITEMTYPE itemType;
 		public int ID { get; private set; }
+		public int Price {  get; private set; }
+		public bool Sold { get; set; }
 		public EquipmentItem(string _name, EQUIPMENTYPE _equipType, ITEMTYPE _itemType,
-			int _stat, string _discription)
+			int _stat, string _discription, int _price)
 		{
 			Name = _name;
 			equipType = _equipType;
@@ -74,6 +83,8 @@ namespace TextRpgDungeon
 			discription = _discription;
 			itemType = _itemType;
 			ID = Utils.IdGenerator();
+			Price = _price;
+			Sold = false;
 		}
 		public void Use(Warrior warrior)
 		{
@@ -102,7 +113,6 @@ namespace TextRpgDungeon
 					Console.Write($"체력회복 +{stat} | {discription}");
 					break;
 			}
-			Console.WriteLine();
 		}
 	}
 
