@@ -10,7 +10,7 @@ namespace TextRpgDungeon
 	class Inventory
 	{
 		// 장착템 목록
-		List<EquipmentItem> equipmentItems { get; set; }
+		public List<EquipmentItem> equipmentItems { get; private set; }
 
 		// 소모품 목록
 		List<UsableItem> usableItems { get; set; }
@@ -155,19 +155,32 @@ namespace TextRpgDungeon
 		}
 
 		/*
-		 * LINQ를 사용한 제거
+		 * 인벤토리에서 아이템 제거
 		 */
 		public void Remove(IItem item)
 		{
 			if (item is EquipmentItem)
 			{
 				EquipmentItem equipmentItem = (EquipmentItem)item;
-				equipmentItems.RemoveAll(equipment => equipment.ID == equipmentItem.ID);
+				if (equipmentItem.equipped)
+				{
+					if(equipmentItem.equipType == EQUIPMENTYPE.ONEHAND)
+					{
+						RightHand = null;
+						equipmentItem.equipped = false;
+					}
+					else if (equipmentItem.equipType == EQUIPMENTYPE.BODY)
+					{
+						Body = null;
+						equipmentItem.equipped = false;
+					}
+				}
+				equipmentItems.Remove(equipmentItem);
 			}
 			else if (item is UsableItem)
 			{
 				UsableItem usableItem = (UsableItem)item;
-				usableItems.RemoveAll(usable => usable.ID == usableItem.ID);
+				usableItems.Remove(usableItem);
 			}
 		}
 	}

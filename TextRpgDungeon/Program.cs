@@ -65,12 +65,6 @@ namespace TextRpgDungeon
 		}
 
 	}
-
-	//던전 클래스
-	class Dungeon
-	{
-
-	}
 }
 
 
