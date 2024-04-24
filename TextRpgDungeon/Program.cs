@@ -53,7 +53,8 @@ namespace TextRpgDungeon
 				Console.Write("1. 상태 보기\n" +
 						"2. 인벤토리\n" +
 						"3. 상점\n" +
-						"4. 던전입장\n");
+						"4. 던전입장\n" +
+						"5. 휴식하기");
 				input = Utils.GetInput(1, 5);
 				switch (input)
 				{
@@ -68,6 +69,9 @@ namespace TextRpgDungeon
 						break;
 					case 4:
 						exitVillage = ChooseDungeon();
+						break;
+					case 5:
+						exitVillage = Rest();
 						break;
 				}
 			}
@@ -98,7 +102,14 @@ namespace TextRpgDungeon
 						exitDungeon = true;
 						break;
 					default:
-						dungeon[input - 1].DungeonClear(warrior);
+						if (warrior.IsDead)
+						{
+							exitDungeon = true;
+						}
+						else
+						{
+							dungeon[input - 1].DungeonClear(warrior);
+						}
 						break;
 				}
 			}
@@ -112,6 +123,40 @@ namespace TextRpgDungeon
 			}
 		}
 
+		//휴식 하기 창
+		bool Rest()
+		{
+			bool exitDungeon = false;
+			while (!exitDungeon)
+			{
+				Console.WriteLine("---------------------------------------------");
+				Console.WriteLine("휴식하기" +
+				"\n500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {0} G)\n", warrior.Gold);
+				Console.WriteLine("1. 휴식하기");
+				Console.WriteLine("0. 나가기");
+
+				int input = Utils.GetInput(0, 1);
+				switch (input)
+				{
+					case 0:
+						exitDungeon = true;
+						break;
+					default:
+						if(warrior.Gold >= 500)
+						{
+							Console.WriteLine("휴식을 완료했습니다.");
+							warrior.Health = warrior.TotalHealth;
+						}
+						else
+						{
+							Console.WriteLine("Gold 가 부족합니다.");
+						}
+						
+						break;
+				}
+			}
+			return false;//village로 돌아가기
+		}
 	}
 }
 

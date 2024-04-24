@@ -11,6 +11,7 @@ namespace TextRpgDungeon
 	{
 		public string Name { get; set; }
 		public int Health { get; set; }
+		public int TotalHealth { get; private set; }
 		public int Attack { get; set; }
 		public bool IsDead { get; set; }
 		public int Level { get; set; }
@@ -25,6 +26,7 @@ namespace TextRpgDungeon
 		{
 			Name = _name;
 			Health = _health;
+			TotalHealth = _health;
 			Attack = _attack;
 			IsDead = false;
 			Level = _level;
