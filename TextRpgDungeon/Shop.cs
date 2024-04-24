@@ -113,11 +113,11 @@ namespace TextRpgDungeon
 						}
 						break;
 					default:
-						if (!selling && input == 1) // 아이템 구매중이 아닐 때는 구매창으로 이동
+						if (!buyFromCustomer && !selling && input == 1) // 아이템 구매중이 아닐 때는 구매창으로 이동
 						{
 							selling = true;
 						}
-						else if (!buyFromCustomer && input == 2) // 아이템 판매중이 아닐 때는 판매창으로 이동
+						else if (!selling && !buyFromCustomer && input == 2) // 아이템 판매중이 아닐 때는 판매창으로 이동
 						{
 							buyFromCustomer = true;
 						}

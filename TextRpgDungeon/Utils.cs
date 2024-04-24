@@ -6,7 +6,7 @@ namespace TextRpgDungeon
 		//최소, 최대값을 벗어나면 재입력 요청
 		public static int GetInput(int min, int limit)
 		{
-			Console.Write("원하시는 행동을 입력해주세요.\n" +
+			Console.Write("\n원하시는 행동을 입력해주세요.\n" +
 						">>");
 			int input = int.Parse(Console.ReadLine() ?? "-1");
 			while (input < min || input > limit)

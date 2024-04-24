@@ -37,7 +37,6 @@ namespace TextRpgDungeon
 		//데미지를 받아서 체력이 0이하가 되면 사망
 		public void TakeDamage(int damage)
 		{
-			Console.WriteLine("용사 {0}(이/가) 공격 {1}을 받았습니다.", Name, damage);
 			Health -= damage;
 			if (Health <= 0)
 			{
@@ -82,5 +81,28 @@ namespace TextRpgDungeon
 			return true;
 		}
 
+		public int TotalDefence()
+		{
+			if(Inventory.Body != null)
+			{
+				return Defence + Inventory.Body.stat;
+			}
+			else
+			{
+				return Defence;
+			}
+		}
+
+		public int TotalAttack()
+		{
+			if (Inventory.RightHand != null)
+			{
+				return Attack + Inventory.RightHand.stat;
+			}
+			else
+			{
+				return Attack;
+			}
+		}
 	}
 }
