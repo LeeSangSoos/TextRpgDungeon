@@ -22,9 +22,11 @@ namespace TextRpgDungeon
 	class Game
 	{
 		Warrior warrior;
+		Shop shop;
 		public Game(Warrior _warrior)
 		{
 			warrior = _warrior;
+			shop = new Shop(warrior);
 		}
 
 		public void Run()
@@ -56,6 +58,7 @@ namespace TextRpgDungeon
 						exitVillage = warrior.Inventory.ManageItems();
 						break;
 					case 3:
+						exitVillage = shop.ShowItems();
 						break;
 				}
 			}

@@ -40,10 +40,13 @@ namespace TextRpgDungeon
 				Console.WriteLine("[장착 아이템 목록]");
 				for (int i = 0; i < equipmentItems.Count; i++)
 				{
-					Console.Write("- ");
 					if (manageEquipments)
 					{
 						Console.Write($"- {i + 1} ");
+					}
+					else
+					{
+						Console.Write("- ");
 					}
 					equipmentItems[i].PrintData();
 					Console.WriteLine();

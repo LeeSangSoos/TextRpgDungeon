@@ -32,12 +32,6 @@ namespace TextRpgDungeon
 			Defence = _defence;
 			Gold = _gold;
 			Inventory = new Inventory();
-
-			//Inventory.Add(new EquipmentItem("갑옷1", EQUIPMENTYPE.BODY, ITEMTYPE.DEFENCE, 2, "아주 단단한 갑옷", 100));
-			//Inventory.Add(new EquipmentItem("갑옷2", EQUIPMENTYPE.BODY, ITEMTYPE.DEFENCE, 3, "더욱 단단한 갑옷", 200));
-			//Inventory.Add(new EquipmentItem("무기1", EQUIPMENTYPE.ONEHAND, ITEMTYPE.ATTACK, 1, "날카로운 칼", 100));
-			//Inventory.Add(new EquipmentItem("무기2", EQUIPMENTYPE.ONEHAND, ITEMTYPE.ATTACK, 3, "더욱 날카로운 칼", 200));
-
 		}
 
 		//데미지를 받아서 체력이 0이하가 되면 사망
