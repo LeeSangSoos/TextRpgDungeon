@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace TextRpgDungeon
@@ -11,7 +12,7 @@ namespace TextRpgDungeon
 	{
 		public string Name { get; set; }
 		public float Health { get; set; }
-		public float TotalHealth { get; private set; }
+		public float TotalHealth { get; set; }
 		public float Attack { get; set; }
 		public bool IsDead { get; set; }
 		public int Level { get; set; }
@@ -21,6 +22,24 @@ namespace TextRpgDungeon
 		public Inventory Inventory { get; set; }
 		public int TotalExp { get; set; }
 		public int Exp { get; set; }
+
+		[JsonConstructor]
+		public Warrior(string Name, float Health, float TotalHealth, float Attack, bool IsDead, int Level,
+			CLASS Class, float Defence, int Gold, Inventory Inventory, int TotalExp, int Exp)
+		{
+			this.Name = Name;
+			this.Health = Health;
+			this.TotalHealth = TotalHealth;
+			this.Attack = Attack;
+			this.IsDead = IsDead;
+			this.Level = Level;
+			this.Class = Class;
+			this.Defence = Defence;
+			this.Gold = Gold;
+			this.Inventory = Inventory;
+			this.TotalExp = TotalExp;
+			this.Exp = Exp;
+		}
 
 		//용사의 정보 초기화
 		public Warrior(string _name, int _health, int _attack,

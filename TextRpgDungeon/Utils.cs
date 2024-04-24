@@ -2,7 +2,11 @@ namespace TextRpgDungeon
 {
 	static class Utils
 	{
-		//입력받는 매서드
+		//json파일 이름
+		public static string PlayerFileName = "TextRpgPlayer.json";
+		public static string ShopFileName = "TextRpgShop.json";
+
+		//유저의 입력을 받는 매서드
 		//최소, 최대값을 벗어나면 재입력 요청
 		public static int GetInput(int min, int limit)
 		{

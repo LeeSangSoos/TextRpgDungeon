@@ -2,26 +2,64 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace TextRpgDungeon
 {
+	[JsonSourceGenerationOptions(WriteIndented = true)]
+	[JsonSerializable(typeof(ItemLists))]
+	class ItemLists
+	{
+		[JsonInclude]
+		internal List<EquipmentItem> data {  get; set; }
+
+		[JsonConstructor]
+		public ItemLists(List<EquipmentItem> data)
+		{
+			this.data = data;
+		}
+	}
 	class Shop
 	{
-		List<IItem> soldItems;
+		public List<EquipmentItem> soldItems;
 		Warrior customer;
 
 		//기본 세팅
 		//기본 아이템 추가		
 		public Shop(Warrior _customer)
 		{
-			soldItems = new List<IItem>();
+			//샵도 json에서 읽어오기
+			//null인 경우는 새거 생성
+			string? jsonShop = null;
+			try
+			{
+				jsonShop = File.ReadAllText(Utils.ShopFileName);
+			}
+			catch { }
+			if (jsonShop != null)
+			{
+				var options = new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true,
+				};
+				ItemLists temp = JsonSerializer.Deserialize<ItemLists>(jsonShop, options);
+				soldItems = temp.data;
+			}
+			else
+			{
+				soldItems = new List<EquipmentItem>();
+				Add(new EquipmentItem("갑옷1", EQUIPMENTYPE.BODY, ITEMTYPE.DEFENCE, 1, "아주 단단한 갑옷", 400));
+				Add(new EquipmentItem("갑옷2", EQUIPMENTYPE.BODY, ITEMTYPE.DEFENCE, 2, "더욱 단단한 갑옷", 700));
+				Add(new EquipmentItem("수련자 갑옷", EQUIPMENTYPE.BODY, ITEMTYPE.DEFENCE, 5, " 수련에 도움을 주는 갑옷입니다. ", 1100));
+				Add(new EquipmentItem("무쇠갑옷", EQUIPMENTYPE.BODY, ITEMTYPE.DEFENCE, 9, " 수련에 도움을 주는 갑옷입니다. ", 2000));
+				Add(new EquipmentItem("누더기", EQUIPMENTYPE.BODY, ITEMTYPE.DEFENCE, 3, " 이상하게 방어력이 올라갑니다. ", 900));
+				Add(new EquipmentItem("무기1", EQUIPMENTYPE.ONEHAND, ITEMTYPE.ATTACK, 1, "날카로운 칼", 300));
+				Add(new EquipmentItem("무기2", EQUIPMENTYPE.ONEHAND, ITEMTYPE.ATTACK, 2, "더욱 날카로운 칼", 600));
+				Add(new EquipmentItem("스파르타의 단도", EQUIPMENTYPE.ONEHAND, ITEMTYPE.ATTACK, 6, "스파르타 전사들이 썼다는 단도입니다", 2700));
+			}
 			customer = _customer;
-			Add(new EquipmentItem("갑옷1", EQUIPMENTYPE.BODY, ITEMTYPE.DEFENCE, 2, "아주 단단한 갑옷", 100));
-			Add(new EquipmentItem("갑옷2", EQUIPMENTYPE.BODY, ITEMTYPE.DEFENCE, 3, "더욱 단단한 갑옷", 200));
-			Add(new EquipmentItem("무기1", EQUIPMENTYPE.ONEHAND, ITEMTYPE.ATTACK, 1, "날카로운 칼", 100));
-			Add(new EquipmentItem("무기2", EQUIPMENTYPE.ONEHAND, ITEMTYPE.ATTACK, 3, "더욱 날카로운 칼", 200));
-			Add(new EquipmentItem("수련자 갑옷", EQUIPMENTYPE.BODY, ITEMTYPE.DEFENCE, 5, " 수련에 도움을 주는 갑옷입니다. ", 1000));
 		}
 
 		/*
@@ -44,12 +82,12 @@ namespace TextRpgDungeon
 				if (buyFromCustomer)
 				{
 					Console.WriteLine("\n[인벤토리 아이템 목록]");
-					for (int i = 0; i < customer.Inventory.equipmentItems.Count; i++)
+					for (int i = 0; i < customer.Inventory.equipmentItems.data.Count; i++)
 					{
 						Console.Write($"- {i + 1} ");
 
-						customer.Inventory.equipmentItems[i].PrintData();
-						Console.WriteLine($"\t| {customer.Inventory.equipmentItems[i].Price} G");
+						customer.Inventory.equipmentItems.data[i].PrintData(true);
+						Console.WriteLine($"\t| {customer.Inventory.equipmentItems.data[i].Price} G");
 					}
 				}
 				else
@@ -66,7 +104,7 @@ namespace TextRpgDungeon
 							Console.Write($"- ");
 						}
 
-						soldItems[i].PrintData();
+						soldItems[i].PrintData(true);
 						if (soldItems[i].Sold)
 						{
 							Console.WriteLine("\t| 구매완료");
@@ -90,7 +128,7 @@ namespace TextRpgDungeon
 				}
 				else if (buyFromCustomer)
 				{
-					input = Utils.GetInput(0, customer.Inventory.equipmentItems.Count);
+					input = Utils.GetInput(0, customer.Inventory.equipmentItems.data.Count);
 				}
 				else
 				{
@@ -123,7 +161,7 @@ namespace TextRpgDungeon
 						}
 						else if(selling) // 상점에서 구매
 						{
-							IItem item = soldItems[input - 1];
+							EquipmentItem item = soldItems[input - 1];
 							if (item.Sold)
 							{
 								Console.WriteLine("이미 구매한 아이템입니다");
@@ -145,11 +183,11 @@ namespace TextRpgDungeon
 						}
 						else if (buyFromCustomer) //상점에 판매
 						{
-							IItem item = customer.Inventory.equipmentItems[input - 1];
+							EquipmentItem item = customer.Inventory.equipmentItems.data[input - 1];
 							customer.Gold += (int)(item.Price*0.85f);
 							item.Sold = false;
-							Add(item);
 							customer.Inventory.Remove(item);
+							Add(item);
 						}
 						break;
 				}
@@ -158,7 +196,7 @@ namespace TextRpgDungeon
 		}
 
 		//상점에 아이템 추가
-		public void Add(IItem item)
+		public void Add(EquipmentItem item)
 		{
 			if(soldItems.Find(existingItem =>  existingItem.ID == item.ID) != null)
 			{

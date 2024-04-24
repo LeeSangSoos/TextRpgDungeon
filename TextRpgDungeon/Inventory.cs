@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace TextRpgDungeon
@@ -10,20 +11,30 @@ namespace TextRpgDungeon
 	class Inventory
 	{
 		// 장착템 목록
-		public List<EquipmentItem> equipmentItems { get; private set; }
+		[JsonInclude]
+		public ItemLists equipmentItems { get; set; }
 
 		// 소모품 목록
-		List<UsableItem> usableItems { get; set; }
+		//public List<UsableItem> usableItems { get; set; }
 
 		// 장착한 아이템 목록
-		public EquipmentItem? Body;
-		public EquipmentItem? RightHand;
+		public EquipmentItem? Body { get; set; }
+		public EquipmentItem? RightHand { get; set; }
+
+		[JsonConstructor]
+		public Inventory(ItemLists equipmentItems, EquipmentItem? Body, EquipmentItem? RightHand)
+		{
+			this.equipmentItems = equipmentItems;
+			//this.usableItems = usableItems;
+			this.Body = Body;
+			this.RightHand = RightHand;
+		}
 
 		//초기화
 		public Inventory()
 		{
-			equipmentItems = new List<EquipmentItem>();
-			usableItems = new List<UsableItem>();
+			equipmentItems = new ItemLists(new List<EquipmentItem>());
+			//usableItems = new List<UsableItem>();
 		}
 
 		//인벤토리 창
@@ -38,7 +49,7 @@ namespace TextRpgDungeon
 				Console.WriteLine("인벤토리" +
 				"\n보유 중인 아이템을 관리할 수 있습니다.\n");
 				Console.WriteLine("[장착 아이템 목록]");
-				for (int i = 0; i < equipmentItems.Count; i++)
+				for (int i = 0; i < equipmentItems.data.Count; i++)
 				{
 					if (manageEquipments)
 					{
@@ -48,17 +59,17 @@ namespace TextRpgDungeon
 					{
 						Console.Write("- ");
 					}
-					equipmentItems[i].PrintData();
+					equipmentItems.data[i].PrintData(false);
 					Console.WriteLine();
 				}
 
 				if (!manageEquipments)
 				{
-					Console.WriteLine("\n[소모 아이템 목록]");
-					foreach (UsableItem item in usableItems)
-					{
-						//추가 필요
-					}
+					//Console.WriteLine("\n[소모 아이템 목록]");
+					//foreach (UsableItem item in usableItems)
+					//{
+					//	//추가 필요
+					//}
 				}
 				if (!manageEquipments)
 				{
@@ -69,7 +80,7 @@ namespace TextRpgDungeon
 				int input = 0;
 				if (manageEquipments)
 				{
-					input = Utils.GetInput(0, equipmentItems.Count);
+					input = Utils.GetInput(0, equipmentItems.data.Count);
 				}
 				else
 				{
@@ -94,7 +105,7 @@ namespace TextRpgDungeon
 						}
 						else //장착 관리 동작
 						{
-							EquipmentItem item = equipmentItems[input - 1];
+							EquipmentItem item = equipmentItems.data[input - 1];
 							if (item.equipped)//장착된 아이템 해제
 							{
 								if (item.equipType == EQUIPMENTYPE.BODY)
@@ -140,24 +151,19 @@ namespace TextRpgDungeon
 	
 		/*인벤토리에 아이템 추가
 		 */
-		public void Add(IItem item)
+		public void Add(EquipmentItem item)
 		{
 			if(item is EquipmentItem)
 			{
 				EquipmentItem equipmentItem = (EquipmentItem)item;
-				equipmentItems.Add(equipmentItem);
-			}
-			else if(item is UsableItem)
-			{
-				UsableItem usableItem = (UsableItem)item;
-				usableItems.Add(usableItem);
+				equipmentItems.data.Add(equipmentItem);
 			}
 		}
 
 		/*
 		 * 인벤토리에서 아이템 제거
 		 */
-		public void Remove(IItem item)
+		public void Remove(EquipmentItem item)
 		{
 			if (item is EquipmentItem)
 			{
@@ -167,20 +173,14 @@ namespace TextRpgDungeon
 					if(equipmentItem.equipType == EQUIPMENTYPE.ONEHAND)
 					{
 						RightHand = null;
-						equipmentItem.equipped = false;
 					}
 					else if (equipmentItem.equipType == EQUIPMENTYPE.BODY)
 					{
 						Body = null;
-						equipmentItem.equipped = false;
 					}
+					equipmentItem.equipped = false;
 				}
-				equipmentItems.Remove(equipmentItem);
-			}
-			else if (item is UsableItem)
-			{
-				UsableItem usableItem = (UsableItem)item;
-				usableItems.Remove(usableItem);
+				equipmentItems.data.Remove(equipmentItem);
 			}
 		}
 	}
